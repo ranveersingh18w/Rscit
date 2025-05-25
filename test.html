@@ -116,8 +116,7 @@
         .question-header p { font-size: 0.8rem; color: #64748b; }
         .question-display-box { background-color: #f8fafc; padding: 1.25rem; border-radius: 6px; margin-bottom: 1.5rem; border: 1px solid #e2e8f0; flex-grow: 1; }
         .question-text { font-size: 1.05rem; font-weight: 500; margin-bottom: 1.25rem; color: #1e293b; }
-        .question-text .hindi { display: block; margin-bottom: 0.25rem; }
-        .question-text .english { display: block; font-size: 0.9em; color: #4b5563; }
+        /* Removed specific hindi/english spans from here as JS will handle it */
         .option-label { display: flex; align-items: center; background-color: white; border: 1px solid #cbd5e1; padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 0.75rem; cursor: pointer; transition: all 0.2s ease; font-size: 0.9rem; }
         .option-label:hover { background-color: #f1f5f9; border-color: #94a3b8; }
         .option-label input[type="radio"] { margin-right: 0.75rem; accent-color: #3b82f6; width: 16px; height: 16px;}
@@ -220,6 +219,23 @@
         }
         .alert-modal-buttons button:hover { background-color: #4338ca; }
 
+        /* Language Selection Modal Specific Styles */
+        #language-selection-modal .modal-content { max-width: 450px; }
+        #language-selection-modal .form-group { margin-bottom: 0.5rem; } /* Less margin for radio options */
+        #language-selection-modal .option-label {
+            display: block; /* Make labels block for better layout */
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        #language-selection-modal .option-label:hover { background-color: #f9fafb; }
+        #language-selection-modal .option-label input[type="radio"] { margin-right: 0.5rem; }
+        #language-selection-modal .option-label.selected { background-color: #eff6ff; border-color: #60a5fa; }
+
+
     </style>
 </head>
 <body>
@@ -228,35 +244,35 @@
         <div class="selection-box">
             <div class="ilearn-logo">i<span>LEARN</span></div>
             <h1>Online Assessment Exam</h1>
-            <p class="subtitle">Please enter your details and select the assessment.</p>
+            <p class="subtitle">Kripya apni details enter karein aur assessment chunein.</p>
             <div class="form-group">
-                <label for="user-name">Full Name</label>
-                <input type="text" id="user-name" placeholder="Enter your full name" required>
+                <label for="user-name">Poora Naam (Full Name)</label>
+                <input type="text" id="user-name" placeholder="Apna poora naam enter karein" required>
             </div>
             <div class="form-group">
-                <label for="user-city">City</label>
-                <input type="text" id="user-city" placeholder="Enter your city" required>
+                <label for="user-city">Sheher (City)</label>
+                <input type="text" id="user-city" placeholder="Apna sheher enter karein" required>
             </div>
             <div class="form-group">
-                <label for="assessment-select">Select Assessment</label>
+                <label for="assessment-select">Assessment Chunein (Select Assessment)</label>
                 <select id="assessment-select">
-                    <option value="">-- Select Assessment --</option>
+                    <option value="">-- Assessment Chunein --</option>
                     </select>
             </div>
-            <button id="start-button" class="start-test-btn">Start Test</button>
+            <button id="start-button" class="start-test-btn">Test Shuru Karein (Start Test)</button>
         </div>
     </div>
 
     <div id="test-engine-screen" class="test-engine-container">
         <div class="top-bar">
-            <button id="home-button-top-bar" title="Go to Home Screen" class="top-bar-button">
+            <button id="home-button-top-bar" title="Home Screen par jayein" class="top-bar-button">
                 <i class="fas fa-home"></i> Home
             </button>
-            <button id="back-button-top-bar" title="Back to Chapter Selection" class="top-bar-button ml-1">
+            <button id="back-button-top-bar" title="Chapter Selection par wapas jayein" class="top-bar-button ml-1">
                 <i class="fas fa-arrow-left"></i> Back
             </button>
             <div class="top-bar-title">RSCIT Advanced Test Engine</div>
-            <div id="timer-display">Time Left: 15:00</div>
+            <div id="timer-display">Samay Baaki: 15:00</div>
             <div id="profile-info-display" class="profile-info ml-4">
                 <i class="fas fa-user-circle"></i>
                 <span id="user-name-display"></span>, <span id="user-city-display"></span>
@@ -267,76 +283,93 @@
                 <div id="test-content-area" class="flex flex-col h-full">
                     <div class="question-header">
                         <h2 id="test-title-area">Assessment Title</h2>
-                        <p id="question-counter-area">Question 1 of 10</p>
+                        <p id="question-counter-area">Prashn 1 of 10</p>
                     </div>
                     <div class="question-display-box">
                         <p id="question-text-area" class="question-text">
-                            <span class="hindi">प्रश्न यहाँ लोड होगा...</span>
-                            <span class="english">(Question will load here...)</span>
-                        </p>
+                            </p>
                         <div id="options-container-area" class="space-y-3"></div>
                     </div>
                     <div class="navigation-buttons">
-                        <button id="prev-button" class="nav-btn prev"><i class="fas fa-arrow-left"></i> Previous</button>
-                        <button id="save-next-button" class="nav-btn save-next">Save & Next <i class="fas fa-arrow-right"></i></button>
+                        <button id="prev-button" class="nav-btn prev"><i class="fas fa-arrow-left"></i> Pichla (Previous)</button>
+                        <button id="save-next-button" class="nav-btn save-next">Save & Agla (Save & Next) <i class="fas fa-arrow-right"></i></button>
                     </div>
                     <div class="submit-test-button-container">
-                        <button id="submit-test-button" class="submit-test-btn">Submit Test</button>
+                        <button id="submit-test-button" class="submit-test-btn">Test Jama Karein (Submit Test)</button>
                     </div>
                 </div>
                 <div id="results-screen" class="results-screen">
-                    <h2>Test Completed!</h2>
+                    <h2>Test Poora Hua! (Test Completed!)</h2>
                     <p id="results-chapter-name"></p>
-                    <p class="score" id="results-score">Your Score: 0/10</p>
-                    <p class="percentage" id="results-percentage">Percentage: 0%</p>
+                    <p class="score" id="results-score">Aapka Score: 0/10</p>
+                    <p class="percentage" id="results-percentage">Pratishat (Percentage): 0%</p>
                     <div class="action-buttons">
-                        <button id="retry-chapter-button" class="nav-btn save-next">Retry This Chapter</button>
-                        <button id="back-to-selection-button" class="nav-btn prev ml-2">Select Another Chapter</button>
+                        <button id="retry-chapter-button" class="nav-btn save-next">Yeh Chapter Dobara Dein (Retry This Chapter)</button>
+                        <button id="back-to-selection-button" class="nav-btn prev ml-2">Doosra Chapter Chunein (Select Another Chapter)</button>
                     </div>
                 </div>
             </div>
 
             <div class="palette-area">
-                <div class="palette-header"><i class="fas fa-th-large mr-2"></i>Question Palette</div>
+                <div class="palette-header"><i class="fas fa-th-large mr-2"></i>Prashn Palette (Question Palette)</div>
                 <div id="palette-grid" class="palette-grid"></div>
                 <div class="palette-legend">
-                    <div><span style="background-color: #4ade80;"></span> Answered</div>
-                    <div><span style="background-color: #f8fafc; border: 1px solid #cbd5e1;"></span> Not Answered</div>
-                    <div><span style="background-color: #60a5fa;"></span> Current</div>
+                    <div><span style="background-color: #4ade80;"></span> Uttar Diya (Answered)</div>
+                    <div><span style="background-color: #f8fafc; border: 1px solid #cbd5e1;"></span> Uttar Nahi Diya (Not Answered)</div>
+                    <div><span style="background-color: #60a5fa;"></span> Vartaman (Current)</div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="language-selection-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Assessment Ka Madhyam Chunein (Choose Assessment Medium)</h3>
+            <p>Kripya test ke liye apni pasand ki bhasha chunein.</p>
+            <div class="form-group" style="text-align: left; margin-bottom: 1.5rem;">
+                <label class="option-label">
+                    <input type="radio" name="language-select" value="english" checked> English
+                </label>
+                <label class="option-label">
+                    <input type="radio" name="language-select" value="hindi"> हिन्दी (Hindi)
+                </label>
+            </div>
+            <div class="modal-buttons">
+                <button id="confirm-language-btn" class="confirm-btn">Bhasha Confirm Karein (Confirm Language)</button>
+                <button id="cancel-language-btn" class="cancel-btn">Radd Karein (Cancel)</button>
             </div>
         </div>
     </div>
 
     <div id="start-test-confirm-modal" class="modal-overlay">
         <div class="modal-content">
-            <h3>Confirm Start Test</h3>
-            <p>Are you sure you want to start the test with the selected details?</p>
+            <h3>Test Shuru Karne Ki Pushti Karein (Confirm Start Test)</h3>
+            <p>Kya aap chune gaye vivaran ke saath test shuru karna chahte hain?</p>
             <div class="modal-buttons">
-                <button id="confirm-start-test-btn" class="confirm-btn">Yes, Start Test</button>
-                <button id="cancel-start-test-btn" class="cancel-btn">Cancel</button>
+                <button id="confirm-start-test-btn" class="confirm-btn">Haan, Test Shuru Karein (Yes, Start Test)</button>
+                <button id="cancel-start-test-btn" class="cancel-btn">Radd Karein (Cancel)</button>
             </div>
         </div>
     </div>
 
     <div id="submit-confirm-modal" class="modal-overlay">
         <div class="modal-content">
-            <h3>Confirm Submission</h3>
-            <p>Are you sure you want to submit the test?</p>
+            <h3>Jama Karne Ki Pushti Karein (Confirm Submission)</h3>
+            <p>Kya aap test jama karna chahte hain?</p>
             <div class="modal-buttons">
-                <button id="confirm-submit-btn" class="confirm-btn">Yes, Submit</button>
-                <button id="cancel-submit-btn" class="cancel-btn">Cancel</button>
+                <button id="confirm-submit-btn" class="confirm-btn">Haan, Jama Karein (Yes, Submit)</button>
+                <button id="cancel-submit-btn" class="cancel-btn">Radd Karein (Cancel)</button>
             </div>
         </div>
     </div>
 
     <div id="home-back-confirm-modal" class="modal-overlay">
         <div class="modal-content">
-            <h3>Confirm Navigation</h3>
-            <p>Are you sure you want to leave the test? Your current progress will be lost.</p>
+            <h3>Navigation Ki Pushti Karein (Confirm Navigation)</h3>
+            <p>Kya aap test chhodna chahte hain? Aapki vartaman pragati nasht ho jayegi.</p>
             <div class="modal-buttons">
-                <button id="confirm-navigation-btn" class="confirm-destructive-btn">Yes, Leave Test</button>
-                <button id="cancel-navigation-btn" class="cancel-btn">Stay</button>
+                <button id="confirm-navigation-btn" class="confirm-destructive-btn">Haan, Test Chhodein (Yes, Leave Test)</button>
+                <button id="cancel-navigation-btn" class="cancel-btn">Rukein (Stay)</button>
             </div>
         </div>
     </div>
@@ -345,13 +378,14 @@
         <div class="alert-modal-content">
             <p id="custom-alert-message"></p>
             <div class="alert-modal-buttons">
-                <button id="custom-alert-ok-btn">OK</button>
+                <button id="custom-alert-ok-btn">Theek Hai (OK)</button>
             </div>
         </div>
     </div>
 
 
-    <script src="questions_data.js"></script> <script>
+    <script src="questions_data.js"></script>
+    <script>
         // --- DOM Elements ---
         const chapterSelectionScreen = document.getElementById('chapter-selection-screen');
         const testEngineScreen = document.getElementById('test-engine-screen');
@@ -380,26 +414,24 @@
         const backToSelectionButton = document.getElementById('back-to-selection-button');
 
         // Modal elements
+        const languageSelectionModal = document.getElementById('language-selection-modal');
+        const confirmLanguageBtn = document.getElementById('confirm-language-btn');
+        const cancelLanguageBtn = document.getElementById('cancel-language-btn');
+        const startTestConfirmModal = document.getElementById('start-test-confirm-modal');
+        const confirmStartTestBtn = document.getElementById('confirm-start-test-btn');
+        const cancelStartTestBtn = document.getElementById('cancel-start-test-btn');
         const submitConfirmModal = document.getElementById('submit-confirm-modal');
         const confirmSubmitBtn = document.getElementById('confirm-submit-btn');
         const cancelSubmitBtn = document.getElementById('cancel-submit-btn');
         const customAlertModal = document.getElementById('custom-alert-modal');
         const customAlertMessage = document.getElementById('custom-alert-message');
         const customAlertOkBtn = document.getElementById('custom-alert-ok-btn');
-
-        // New Timer and Navigation Elements
-        const timerDisplay = document.getElementById('timer-display');
-        const homeButtonTopBar = document.getElementById('home-button-top-bar');
-        const backButtonTopBar = document.getElementById('back-button-top-bar');
         const homeBackConfirmModal = document.getElementById('home-back-confirm-modal');
         const confirmNavigationBtn = document.getElementById('confirm-navigation-btn');
         const cancelNavigationBtn = document.getElementById('cancel-navigation-btn');
-
-        // Start Test Confirmation Modal Elements
-        const startTestConfirmModal = document.getElementById('start-test-confirm-modal');
-        const confirmStartTestBtn = document.getElementById('confirm-start-test-btn');
-        const cancelStartTestBtn = document.getElementById('cancel-start-test-btn');
-
+        const timerDisplay = document.getElementById('timer-display');
+        const homeButtonTopBar = document.getElementById('home-button-top-bar');
+        const backButtonTopBar = document.getElementById('back-button-top-bar');
 
         // --- Quiz State ---
         let currentChapterId = null;
@@ -409,7 +441,8 @@
         let questionStatus = []; // 'not-answered', 'answered'
         let userName = '';
         let userCity = '';
-        let selectedChapterForStart = ''; // To store chapter temporarily for confirmation
+        let selectedChapterForStart = '';
+        let selectedTestLanguage = 'english'; // Default language
 
         // --- Timer State ---
         let timerIntervalId = null;
@@ -443,16 +476,16 @@
                 "13": "Chapter 13: Useful Application of IT New", "14": "Chapter 14: Exploring Common Citizen Centric Services New",
                 "15": "Chapter 15: Major eGovernance Services And Schemes For Citizens of Rajasthan New"
             };
-            assessmentSelect.innerHTML = '<option value="">-- Select Assessment --</option>';
+            assessmentSelect.innerHTML = '<option value="">-- Assessment Chunein --</option>'; // Updated placeholder
             for (let i = 1; i <= 15; i++) {
                 const chapterId = i.toString();
                 const option = document.createElement('option');
                 option.value = chapterId;
-                option.textContent = chapterNames[chapterId] || `Assessment ${chapterId}: (Name not found)`;
+                option.textContent = chapterNames[chapterId] || `Assessment ${chapterId}: (Naam nahi mila)`;
                 if (allChaptersQuestions[chapterId] && allChaptersQuestions[chapterId].length > 0) {
                     option.disabled = false;
                 } else {
-                    option.textContent += " (Not Available)";
+                    option.textContent += " (Uplabdh Nahi)";
                     option.disabled = true;
                 }
                 assessmentSelect.appendChild(option);
@@ -470,12 +503,12 @@
         function updateTimerDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
-            timerDisplay.textContent = `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            timerDisplay.textContent = `Samay Baaki: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
         function startTimer() {
             timeLeft = TEST_DURATION_SECONDS;
-            stopTimer();
+            stopTimer(); // Clear any existing timer
             updateTimerDisplay();
             timerIntervalId = setInterval(() => {
                 timeLeft--;
@@ -493,45 +526,44 @@
 
         function handleTimeUp() {
             stopTimer();
-            showAlert("Time is up! Your test will be submitted automatically.");
+            showAlert("Samay samapt! Aapka test svatah jama ho jayega. (Time is up! Your test will be submitted automatically.)");
             setTimeout(() => {
-                 if (resultsScreen.style.display !== 'flex') {
+                 if (resultsScreen.style.display !== 'flex') { // Check if results are not already shown
                     showResults();
                  }
-            }, 500);
+            }, 500); // Short delay for user to read alert
         }
 
 
-        function startTestLogic(chapterIdToStart) { // Renamed parameter to avoid conflict
+        function startTestLogic(chapterIdToStart) {
             if (typeof allChaptersQuestions === 'undefined' || !allChaptersQuestions[chapterIdToStart]) {
-                showAlert(`Error: Question data for the selected chapter is not available. Please ensure 'questions_data.js' is loaded and contains data for chapter '${chapterIdToStart}'.`);
+                showAlert(`Error: Chune gaye chapter ke liye prashn data uplabdh nahi hai. (Error: Question data for the selected chapter is not available.)`);
                 return;
             }
             currentChapterId = chapterIdToStart;
-            const fullChapterQuestions = allChaptersQuestions[currentChapterId]; // Use the passed chapterId
+            const fullChapterQuestions = allChaptersQuestions[currentChapterId];
             if (!fullChapterQuestions || fullChapterQuestions.length === 0) {
-                showAlert("No questions available for this chapter.");
+                showAlert("Is chapter ke liye koi prashn uplabdh nahi hai. (No questions available for this chapter.)");
                 return;
             }
-            currentQuizQuestions = shuffleArray([...fullChapterQuestions]).slice(0, 10);
+            currentQuizQuestions = shuffleArray([...fullChapterQuestions]).slice(0, 10); // Take 10 random questions
              if (currentQuizQuestions.length === 0) {
-                showAlert("Not enough questions to start the test for this chapter (minimum 1 needed).");
+                showAlert("Is chapter ke liye test shuru karne ke liye paryapt prashn nahi hain. (Not enough questions to start the test for this chapter.)");
                 return;
             }
             userAnswers = new Array(currentQuizQuestions.length).fill(null);
             questionStatus = new Array(currentQuizQuestions.length).fill('not-answered');
             currentQuestionIndex = 0;
 
-            userNameDisplay.textContent = userName; // userName is already set globally
-            userCityDisplay.textContent = userCity; // userCity is already set globally
+            userNameDisplay.textContent = userName;
+            userCityDisplay.textContent = userCity;
 
             chapterSelectionScreen.style.display = 'none';
             testEngineScreen.style.display = 'flex';
             resultsScreen.style.display = 'none';
             testContentArea.style.display = 'flex';
-            testContentArea.style.flexDirection = 'column';
+            testContentArea.style.flexDirection = 'column'; // Ensure proper layout
 
-            // Find the selected option text again for the title
             let selectedAssessmentText = "Assessment";
             for(let i=0; i < assessmentSelect.options.length; i++){
                 if(assessmentSelect.options[i].value === currentChapterId){
@@ -541,7 +573,6 @@
             }
             testTitleArea.textContent = selectedAssessmentText;
 
-
             startTimer();
             displayQuestion();
             renderPalette();
@@ -549,14 +580,19 @@
 
         function displayQuestion() {
             if (!currentQuizQuestions || currentQuizQuestions.length === 0 || !currentQuizQuestions[currentQuestionIndex]) {
-                showAlert("Error: Could not load question " + (currentQuestionIndex + 1));
-                stopTimer();
+                showAlert("Error: Prashn load nahi ho saka " + (currentQuestionIndex + 1));
+                stopTimer(); // Stop timer if question loading fails
                 return;
             }
             const question = currentQuizQuestions[currentQuestionIndex];
-            questionTextArea.innerHTML = `<span class="hindi">${question.question_hi}</span> <span class="english">(${question.question_en})</span>`;
-            optionsContainerArea.innerHTML = '';
+            // Display question based on selected language
+            if (selectedTestLanguage === 'hindi') {
+                questionTextArea.innerHTML = `<span class="hindi-question">${question.question_hi}</span>`;
+            } else {
+                questionTextArea.innerHTML = `<span class="english-question">${question.question_en}</span>`;
+            }
 
+            optionsContainerArea.innerHTML = '';
             question.options.forEach(opt => {
                 const label = document.createElement('label');
                 label.className = 'option-label';
@@ -566,32 +602,43 @@
                 radio.value = opt.char;
 
                 label.appendChild(radio);
-                label.appendChild(document.createTextNode(` ${opt.text_hi} (${opt.text_en})`));
+                // Display option based on selected language
+                if (selectedTestLanguage === 'hindi') {
+                    label.appendChild(document.createTextNode(` ${opt.text_hi}`));
+                } else {
+                    label.appendChild(document.createTextNode(` ${opt.text_en}`));
+                }
+
 
                 if (userAnswers[currentQuestionIndex] === opt.char) {
                     radio.checked = true;
                     label.classList.add('selected');
                 }
 
+                // Event listener for option selection
                 label.addEventListener('click', (e) => {
-                    if (!radio.checked) {
+                    // Ensure radio is checked if label is clicked
+                    if (!radio.checked) { // If not already checked, check it
                         radio.checked = true;
                     }
                     userAnswers[currentQuestionIndex] = radio.value;
                     questionStatus[currentQuestionIndex] = 'answered';
+                    // Visually update selected option
                     document.querySelectorAll('#options-container-area .option-label').forEach(l => l.classList.remove('selected'));
                     label.classList.add('selected');
-                    renderPalette();
+                    renderPalette(); // Update palette after selection
                 });
                 optionsContainerArea.appendChild(label);
             });
 
-            questionCounterArea.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuizQuestions.length}`;
+            questionCounterArea.textContent = `Prashn ${currentQuestionIndex + 1} of ${currentQuizQuestions.length}`;
             prevButton.disabled = currentQuestionIndex === 0;
             saveAndNextButton.disabled = currentQuestionIndex === currentQuizQuestions.length - 1;
-            saveAndNextButton.innerHTML = currentQuestionIndex === currentQuizQuestions.length - 1 ? 'Next <i class="fas fa-arrow-right"></i>' : 'Save & Next <i class="fas fa-arrow-right"></i>';
+            // Update button text based on current question
+             saveAndNextButton.innerHTML = currentQuestionIndex === currentQuizQuestions.length - 1 ? 'Agla (Next) <i class="fas fa-arrow-right"></i>' : 'Save & Agla (Save & Next) <i class="fas fa-arrow-right"></i>';
             updatePaletteActiveButton();
         }
+
 
         function renderPalette() {
             paletteGrid.innerHTML = '';
@@ -603,16 +650,21 @@
                     currentQuestionIndex = index;
                     displayQuestion();
                 };
+                // Clear previous status classes before adding new ones
                 btn.classList.remove('current', 'answered', 'not-answered');
                 if (index === currentQuestionIndex) btn.classList.add('current');
 
+                // Set status class based on questionStatus array
                 switch(questionStatus[index]) {
                     case 'answered': btn.classList.add('answered'); break;
-                    default: btn.classList.add('not-answered');
+                    // case 'not-visited': // If you add this status
+                    //    btn.classList.add('not-visited'); break;
+                    default: btn.classList.add('not-answered'); // Default for not-answered
                 }
                 paletteGrid.appendChild(btn);
             });
         }
+
 
         function updatePaletteActiveButton() {
             document.querySelectorAll('.palette-button').forEach((btn, index) => {
@@ -633,16 +685,16 @@
             });
             const percentage = currentQuizQuestions.length > 0 ? ((score / currentQuizQuestions.length) * 100).toFixed(2) : 0;
 
-            let selectedAssessmentText = "Selected Assessment";
+            let selectedAssessmentText = "Chuna Gaya Assessment (Selected Assessment)";
              for(let i=0; i < assessmentSelect.options.length; i++){
-                if(assessmentSelect.options[i].value === currentChapterId){ // currentChapterId holds the ID of the test taken
+                if(assessmentSelect.options[i].value === currentChapterId){
                     selectedAssessmentText = assessmentSelect.options[i].text;
                     break;
                 }
             }
             resultsChapterName.textContent = `Assessment: ${selectedAssessmentText}`;
-            resultsScoreEl.textContent = `Your Score: ${score}/${currentQuizQuestions.length}`;
-            resultsPercentageEl.textContent = `Percentage: ${percentage}%`;
+            resultsScoreEl.textContent = `Aapka Score: ${score}/${currentQuizQuestions.length}`;
+            resultsPercentageEl.textContent = `Pratishat (Percentage): ${percentage}%`;
 
             testContentArea.style.display = 'none';
             resultsScreen.style.display = 'flex';
@@ -651,19 +703,22 @@
         function goToChapterSelectionScreen() {
             stopTimer();
             testEngineScreen.style.display = 'none';
-            resultsScreen.style.display = 'none';
+            resultsScreen.style.display = 'none'; // Hide results screen if visible
             chapterSelectionScreen.style.display = 'flex';
-            assessmentSelect.value = "";
-            // userNameInput.value = ""; // Optionally clear these, or leave for convenience
+            assessmentSelect.value = ""; // Reset dropdown
+            // Optionally reset name and city or keep them
+            // userNameInput.value = "";
             // userCityInput.value = "";
 
+            // Reset quiz state variables
             currentChapterId = null;
             currentQuizQuestions = [];
             currentQuestionIndex = 0;
             userAnswers = [];
             questionStatus = [];
-            selectedChapterForStart = ''; // Reset this as well
-            timerDisplay.textContent = `Time Left: ${String(TEST_DURATION_SECONDS/60).padStart(2, '0')}:00`;
+            selectedChapterForStart = '';
+            selectedTestLanguage = 'english'; // Reset to default language
+            timerDisplay.textContent = `Samay Baaki: ${String(TEST_DURATION_SECONDS/60).padStart(2, '0')}:00`; // Reset timer display
         }
 
 
@@ -671,37 +726,56 @@
         startButton.addEventListener('click', () => {
             userName = userNameInput.value.trim();
             userCity = userCityInput.value.trim();
-            selectedChapterForStart = assessmentSelect.value; // Store selected chapter
+            selectedChapterForStart = assessmentSelect.value;
 
             if (!userName) {
-                showAlert("Please enter your name.");
+                showAlert("Kripya apna naam enter karein. (Please enter your name.)");
                 return;
             }
             if (!userCity) {
-                showAlert("Please enter your city.");
+                showAlert("Kripya apna sheher enter karein. (Please enter your city.)");
                 return;
             }
             if (selectedChapterForStart) {
-                startTestConfirmModal.style.display = 'flex'; // Show confirmation modal
+                languageSelectionModal.style.display = 'flex'; // Show language selection first
             } else {
-                showAlert("Please select an assessment.");
+                showAlert("Kripya ek assessment chunein. (Please select an assessment.)");
             }
         });
+
+        // Language Selection Modal Listeners
+        confirmLanguageBtn.addEventListener('click', () => {
+            const languageRadios = document.getElementsByName('language-select');
+            for (const radio of languageRadios) {
+                if (radio.checked) {
+                    selectedTestLanguage = radio.value;
+                    break;
+                }
+            }
+            languageSelectionModal.style.display = 'none';
+            startTestConfirmModal.style.display = 'flex'; // Then show test confirmation
+        });
+
+        cancelLanguageBtn.addEventListener('click', () => {
+            languageSelectionModal.style.display = 'none';
+            selectedChapterForStart = ''; // Clear selection if cancelled
+        });
+
 
         // Start Test Confirmation Modal Listeners
         confirmStartTestBtn.addEventListener('click', () => {
             startTestConfirmModal.style.display = 'none';
-            if (selectedChapterForStart) { // Ensure chapter is still selected
+            if (selectedChapterForStart) {
                  startTestLogic(selectedChapterForStart);
             } else {
-                showAlert("Error: Assessment selection lost. Please select again."); // Fallback
-                goToChapterSelectionScreen(); // Go back if selection is somehow lost
+                showAlert("Error: Assessment chayan kho gaya. Kripya dobara chunein. (Error: Assessment selection lost. Please select again.)");
+                goToChapterSelectionScreen();
             }
         });
 
         cancelStartTestBtn.addEventListener('click', () => {
             startTestConfirmModal.style.display = 'none';
-            selectedChapterForStart = ''; // Clear the temporarily stored chapter
+            selectedChapterForStart = '';
         });
 
 
@@ -717,7 +791,9 @@
                 currentQuestionIndex++;
                 displayQuestion();
             } else {
-                 showAlert("This is the last question. Click 'Submit Test' to finish.");
+                 // If it's the last question, this button might be better labeled as just "Next"
+                 // or disabled, and user relies on "Submit Test"
+                 showAlert("Yeh aakhri prashn hai. Samapt karne ke liye 'Test Jama Karein' par click karein. (This is the last question. Click 'Submit Test' to finish.)");
             }
         });
 
@@ -735,22 +811,29 @@
         });
 
         retryChapterButton.addEventListener('click', () => {
-            startTestLogic(currentChapterId);
+            // Restart the same chapter with the same selected language
+            startTestLogic(currentChapterId); // selectedTestLanguage is already set
         });
 
         backToSelectionButton.addEventListener('click', () => {
             goToChapterSelectionScreen();
         });
 
+        // Top Bar Navigation Confirmation
         function handleTopBarNavigation() {
-            homeBackConfirmModal.style.display = 'flex';
+            // Only show confirmation if a test is active (i.e., not on chapter selection screen)
+            if (testEngineScreen.style.display === 'flex' && resultsScreen.style.display !== 'flex') {
+                homeBackConfirmModal.style.display = 'flex';
+            } else {
+                goToChapterSelectionScreen(); // If no test active, just navigate
+            }
         }
         homeButtonTopBar.addEventListener('click', handleTopBarNavigation);
         backButtonTopBar.addEventListener('click', handleTopBarNavigation);
 
         confirmNavigationBtn.addEventListener('click', () => {
             homeBackConfirmModal.style.display = 'none';
-            goToChapterSelectionScreen(); // This takes user to the chapter selection screen
+            goToChapterSelectionScreen();
         });
 
         cancelNavigationBtn.addEventListener('click', () => {
