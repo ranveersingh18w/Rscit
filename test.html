@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSCIT Online Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e0e7ff; /* Light indigo background for selection page */
+            color: #334155;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Styles for Chapter Selection Screen */
+        .selection-container {
+            display: flex; /* Initially shown */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 2rem;
+        }
+        .selection-box {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .selection-box h1 { font-size: 1.75rem; font-weight: 700; color: #4338ca; margin-bottom: 0.5rem; }
+        .selection-box p.subtitle { color: #64748b; margin-bottom: 1.5rem; }
+        .form-group { margin-bottom: 1rem; text-align: left; }
+        .form-group label { display: block; font-weight: 500; margin-bottom: 0.5rem; color: #374151; }
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background-color: #f9fafb;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+        }
+        .start-test-btn {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        .start-test-btn:hover { background-color: #4338ca; }
+        .ilearn-logo { font-size: 2.5rem; font-weight: 800; color: #4f46e5; margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .ilearn-logo span { color: #f97316; } /* Orange accent */
+
+        /* Styles for Test Engine */
+        .test-engine-container {
+            display: none; /* Hidden initially */
+            flex-direction: column;
+            flex-grow: 1;
+            background-color: #f0f4f8; /* Light blue-gray background for test */
+        }
+        .top-bar {
+            background-color: #374151;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar-button { /* For Home and Back buttons in top bar */
+            background-color: transparent;
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .top-bar-button:hover { background-color: #4b5563; }
+        .top-bar-button i { margin-right: 0.3rem; }
+
+        .top-bar-title { text-align: center; flex-grow: 1; /* Removed margin-left */ }
+        #timer-display { font-size: 0.9rem; font-weight: 600; color: #facc15; /* Yellow for timer */ margin-left:1rem; margin-right:1rem; white-space: nowrap;}
+        .profile-info { font-size: 0.9rem; display: flex; align-items: center; }
+        .profile-info i { margin-right: 0.6rem; font-size: 1.2rem; }
+
+        .main-test-content { display: flex; gap: 1.5rem; padding: 1.5rem; max-width: 1280px; margin: 0 auto; width: 100%; flex-grow: 1; }
+        .test-area { flex: 3; background-color: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); padding: 1.5rem; display: flex; flex-direction: column; }
+        .question-header { margin-bottom: 1rem; }
+        .question-header h2 { font-size: 1.1rem; font-weight: 600; color: #1e293b; }
+        .question-header p { font-size: 0.8rem; color: #64748b; }
+        .question-display-box { background-color: #f8fafc; padding: 1.25rem; border-radius: 6px; margin-bottom: 1.5rem; border: 1px solid #e2e8f0; flex-grow: 1; }
+        .question-text { font-size: 1.05rem; font-weight: 500; margin-bottom: 1.25rem; color: #1e293b; }
+        .question-text .hindi { display: block; margin-bottom: 0.25rem; }
+        .question-text .english { display: block; font-size: 0.9em; color: #4b5563; }
+        .option-label { display: flex; align-items: center; background-color: white; border: 1px solid #cbd5e1; padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 0.75rem; cursor: pointer; transition: all 0.2s ease; font-size: 0.9rem; }
+        .option-label:hover { background-color: #f1f5f9; border-color: #94a3b8; }
+        .option-label input[type="radio"] { margin-right: 0.75rem; accent-color: #3b82f6; width: 16px; height: 16px;}
+        .option-label.selected { background-color: #eff6ff; border-color: #60a5fa; font-weight: 500; }
+        .navigation-buttons { display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; margin-top: auto; }
+        .nav-btn { padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 500; font-size: 0.9rem; cursor: pointer; transition: all 0.2s ease; border: 1px solid transparent; display: inline-flex; align-items: center; }
+        .nav-btn i { margin-right: 0.4rem; }
+        .nav-btn.prev { background-color: #e5e7eb; color: #374151; border-color: #d1d5db; }
+        .nav-btn.prev:hover { background-color: #d1d5db; }
+        .nav-btn.save-next { background-color: #3b82f6; color: white; }
+        .nav-btn.save-next:hover { background-color: #2563eb; }
+        .nav-btn:disabled { background-color: #f3f4f6; color: #9ca3af; cursor: not-allowed; border-color: #e5e7eb; }
+        .submit-test-button-container { margin-top: 1.5rem; }
+        .submit-test-btn { background-color: #16a34a; color: white; padding: 0.65rem; border-radius: 6px; font-weight: 600; font-size: 0.95rem; text-align: center; width: 100%; cursor: pointer; transition: background-color 0.2s ease; }
+        .submit-test-btn:hover { background-color: #15803d; }
+
+        .palette-area { width: 260px; flex-shrink: 0; background-color: white; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); padding: 1.5rem; align-self: flex-start; }
+        .palette-header { font-size: 1rem; font-weight: 600; color: #1e293b; margin-bottom: 1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.75rem; }
+        .palette-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); gap: 0.6rem; margin-bottom: 1.5rem; }
+        .palette-button { width: 38px; height: 38px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 500; cursor: pointer; transition: all 0.2s ease; border: 1px solid #cbd5e1; background-color: #f8fafc; color: #334155; font-size:0.9rem; }
+        .palette-button:hover { background-color: #e2e8f0; }
+        .palette-button.current { background-color: #60a5fa; color: white; border-color: #3b82f6; } /* Blue for current */
+        .palette-button.answered { background-color: #4ade80; color: white; border-color: #22c55e; } /* Green for answered */
+        .palette-button.not-answered { background-color: #f8fafc; border: 1px solid #cbd5e1; color: #334155; }
+        .palette-legend div { display: flex; align-items: center; font-size: 0.8rem; margin-bottom: 0.4rem; color: #475569; }
+        .palette-legend span { width: 14px; height: 14px; border-radius: 3px; margin-right: 0.5rem; border: 1px solid #cbd5e1; }
+
+        /* Results Screen */
+        .results-screen { display: none; text-align: center; padding: 2rem; flex-grow: 1; justify-content: center; flex-direction: column; }
+        .results-screen h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem; color: #1e293b; }
+        .results-screen p { font-size: 1.125rem; margin-bottom: 0.75rem; }
+        .results-screen .score { font-size: 2.25rem; font-weight: bold; color: #16a34a; margin-bottom: 0.5rem;}
+        .results-screen .percentage { font-size: 1.25rem; color: #4b5563; margin-bottom: 2rem; }
+        .results-screen .action-buttons button { margin: 0.5rem; padding: 0.6rem 1.2rem; }
+
+        /* Custom Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(3px); /* Optional: blur background */
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        .modal-content h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #1e293b; }
+        .modal-content p { margin-bottom: 1.5rem; color: #4b5563; font-size: 0.95rem; line-height: 1.6;}
+        .modal-buttons button {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border: 1px solid transparent;
+            margin: 0 0.5rem;
+        }
+        .modal-buttons .confirm-btn { background-color: #16a34a; color: white; }
+        .modal-buttons .confirm-btn:hover { background-color: #15803d; }
+        .modal-buttons .cancel-btn { background-color: #e5e7eb; color: #374151; border-color: #d1d5db; }
+        .modal-buttons .cancel-btn:hover { background-color: #d1d5db; }
+        .modal-buttons .confirm-destructive-btn { background-color: #ef4444; color: white; } /* Red for destructive */
+        .modal-buttons .confirm-destructive-btn:hover { background-color: #dc2626; }
+
+
+         /* Alert Modal Styles */
+        .alert-modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 350px;
+            width: 85%;
+        }
+        .alert-modal-content p { margin-bottom: 1rem; color: #4b5563; font-size: 0.95rem; }
+        .alert-modal-buttons button {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border: 1px solid #4f46e5;
+            background-color: #4f46e5;
+            color: white;
+        }
+        .alert-modal-buttons button:hover { background-color: #4338ca; }
+
+    </style>
+</head>
+<body>
+
+    <div id="chapter-selection-screen" class="selection-container">
+        <div class="selection-box">
+            <div class="ilearn-logo">i<span>LEARN</span></div>
+            <h1>Online Assessment Exam</h1>
+            <p class="subtitle">Please enter your details and select the assessment.</p>
+            <div class="form-group">
+                <label for="user-name">Full Name</label>
+                <input type="text" id="user-name" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="user-city">City</label>
+                <input type="text" id="user-city" placeholder="Enter your city" required>
+            </div>
+            <div class="form-group">
+                <label for="assessment-select">Select Assessment</label>
+                <select id="assessment-select">
+                    <option value="">-- Select Assessment --</option>
+                    </select>
+            </div>
+            <button id="start-button" class="start-test-btn">Start Test</button>
+        </div>
+    </div>
+
+    <div id="test-engine-screen" class="test-engine-container">
+        <div class="top-bar">
+            <button id="home-button-top-bar" title="Go to Home Screen" class="top-bar-button">
+                <i class="fas fa-home"></i> Home
+            </button>
+            <button id="back-button-top-bar" title="Back to Chapter Selection" class="top-bar-button ml-1">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <div class="top-bar-title">RSCIT Advanced Test Engine</div>
+            <div id="timer-display">Time Left: 15:00</div>
+            <div id="profile-info-display" class="profile-info ml-4">
+                <i class="fas fa-user-circle"></i>
+                <span id="user-name-display"></span>, <span id="user-city-display"></span>
+            </div>
+        </div>
+        <div class="main-test-content">
+            <div class="test-area">
+                <div id="test-content-area" class="flex flex-col h-full">
+                    <div class="question-header">
+                        <h2 id="test-title-area">Assessment Title</h2>
+                        <p id="question-counter-area">Question 1 of 10</p>
+                    </div>
+                    <div class="question-display-box">
+                        <p id="question-text-area" class="question-text">
+                            <span class="hindi">प्रश्न यहाँ लोड होगा...</span>
+                            <span class="english">(Question will load here...)</span>
+                        </p>
+                        <div id="options-container-area" class="space-y-3"></div>
+                    </div>
+                    <div class="navigation-buttons">
+                        <button id="prev-button" class="nav-btn prev"><i class="fas fa-arrow-left"></i> Previous</button>
+                        <button id="save-next-button" class="nav-btn save-next">Save & Next <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div class="submit-test-button-container">
+                        <button id="submit-test-button" class="submit-test-btn">Submit Test</button>
+                    </div>
+                </div>
+                <div id="results-screen" class="results-screen">
+                    <h2>Test Completed!</h2>
+                    <p id="results-chapter-name"></p>
+                    <p class="score" id="results-score">Your Score: 0/10</p>
+                    <p class="percentage" id="results-percentage">Percentage: 0%</p>
+                    <div class="action-buttons">
+                        <button id="retry-chapter-button" class="nav-btn save-next">Retry This Chapter</button>
+                        <button id="back-to-selection-button" class="nav-btn prev ml-2">Select Another Chapter</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="palette-area">
+                <div class="palette-header"><i class="fas fa-th-large mr-2"></i>Question Palette</div>
+                <div id="palette-grid" class="palette-grid"></div>
+                <div class="palette-legend">
+                    <div><span style="background-color: #4ade80;"></span> Answered</div>
+                    <div><span style="background-color: #f8fafc; border: 1px solid #cbd5e1;"></span> Not Answered</div>
+                    <div><span style="background-color: #60a5fa;"></span> Current</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="start-test-confirm-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Confirm Start Test</h3>
+            <p>Are you sure you want to start the test with the selected details?</p>
+            <div class="modal-buttons">
+                <button id="confirm-start-test-btn" class="confirm-btn">Yes, Start Test</button>
+                <button id="cancel-start-test-btn" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="submit-confirm-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Confirm Submission</h3>
+            <p>Are you sure you want to submit the test?</p>
+            <div class="modal-buttons">
+                <button id="confirm-submit-btn" class="confirm-btn">Yes, Submit</button>
+                <button id="cancel-submit-btn" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="home-back-confirm-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Confirm Navigation</h3>
+            <p>Are you sure you want to leave the test? Your current progress will be lost.</p>
+            <div class="modal-buttons">
+                <button id="confirm-navigation-btn" class="confirm-destructive-btn">Yes, Leave Test</button>
+                <button id="cancel-navigation-btn" class="cancel-btn">Stay</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="custom-alert-modal" class="modal-overlay">
+        <div class="alert-modal-content">
+            <p id="custom-alert-message"></p>
+            <div class="alert-modal-buttons">
+                <button id="custom-alert-ok-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="questions_data.js"></script> <script>
+        // --- DOM Elements ---
+        const chapterSelectionScreen = document.getElementById('chapter-selection-screen');
+        const testEngineScreen = document.getElementById('test-engine-screen');
+        const assessmentSelect = document.getElementById('assessment-select');
+        const startButton = document.getElementById('start-button');
+        const userNameInput = document.getElementById('user-name');
+        const userCityInput = document.getElementById('user-city');
+        const userNameDisplay = document.getElementById('user-name-display');
+        const userCityDisplay = document.getElementById('user-city-display');
+
+        const testTitleArea = document.getElementById('test-title-area');
+        const questionCounterArea = document.getElementById('question-counter-area');
+        const questionTextArea = document.getElementById('question-text-area');
+        const optionsContainerArea = document.getElementById('options-container-area');
+        const paletteGrid = document.getElementById('palette-grid');
+        const prevButton = document.getElementById('prev-button');
+        const saveAndNextButton = document.getElementById('save-next-button');
+
+        const submitTestButton = document.getElementById('submit-test-button');
+        const testContentArea = document.getElementById('test-content-area');
+        const resultsScreen = document.getElementById('results-screen');
+        const resultsChapterName = document.getElementById('results-chapter-name');
+        const resultsScoreEl = document.getElementById('results-score');
+        const resultsPercentageEl = document.getElementById('results-percentage');
+        const retryChapterButton = document.getElementById('retry-chapter-button');
+        const backToSelectionButton = document.getElementById('back-to-selection-button');
+
+        // Modal elements
+        const submitConfirmModal = document.getElementById('submit-confirm-modal');
+        const confirmSubmitBtn = document.getElementById('confirm-submit-btn');
+        const cancelSubmitBtn = document.getElementById('cancel-submit-btn');
+        const customAlertModal = document.getElementById('custom-alert-modal');
+        const customAlertMessage = document.getElementById('custom-alert-message');
+        const customAlertOkBtn = document.getElementById('custom-alert-ok-btn');
+
+        // New Timer and Navigation Elements
+        const timerDisplay = document.getElementById('timer-display');
+        const homeButtonTopBar = document.getElementById('home-button-top-bar');
+        const backButtonTopBar = document.getElementById('back-button-top-bar');
+        const homeBackConfirmModal = document.getElementById('home-back-confirm-modal');
+        const confirmNavigationBtn = document.getElementById('confirm-navigation-btn');
+        const cancelNavigationBtn = document.getElementById('cancel-navigation-btn');
+
+        // Start Test Confirmation Modal Elements
+        const startTestConfirmModal = document.getElementById('start-test-confirm-modal');
+        const confirmStartTestBtn = document.getElementById('confirm-start-test-btn');
+        const cancelStartTestBtn = document.getElementById('cancel-start-test-btn');
+
+
+        // --- Quiz State ---
+        let currentChapterId = null;
+        let currentQuizQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let questionStatus = []; // 'not-answered', 'answered'
+        let userName = '';
+        let userCity = '';
+        let selectedChapterForStart = ''; // To store chapter temporarily for confirmation
+
+        // --- Timer State ---
+        let timerIntervalId = null;
+        const TEST_DURATION_SECONDS = 15 * 60; // 15 minutes
+        let timeLeft = TEST_DURATION_SECONDS;
+
+        // --- Functions ---
+
+        function showAlert(message) {
+            customAlertMessage.textContent = message;
+            customAlertModal.style.display = 'flex';
+        }
+
+        customAlertOkBtn.addEventListener('click', () => {
+            customAlertModal.style.display = 'none';
+        });
+
+        function populateAssessments() {
+            if (typeof allChaptersQuestions === 'undefined') {
+                showAlert("Critical Error: Question data (questions_data.js) is missing or not loaded. Cannot load assessments.");
+                startButton.disabled = true;
+                return;
+            }
+            const chapterNames = {
+                "1": "Chapter 1: Introduction to Computers New", "2": "Chapter 2: Computer System New",
+                "3": "Chapter 3: Exploring Your Computer New", "4": "Chapter 4: Introduction Of Internet New",
+                "5": "Chapter 5: Financial Literacy and Digital Payment Application New", "6": "Chapter 6: Internet Applications New",
+                "7": "Chapter 7: Working with mobile device/smartphone New", "8": "Chapter 8: Microsoft Word New",
+                "9": "Chapter 9: Microsoft Excel New", "10": "Chapter 10: MS Power Point New",
+                "11": "Chapter 11: Cyber Security and Application of IT New", "12": "Chapter 12: Other Office Tools New",
+                "13": "Chapter 13: Useful Application of IT New", "14": "Chapter 14: Exploring Common Citizen Centric Services New",
+                "15": "Chapter 15: Major eGovernance Services And Schemes For Citizens of Rajasthan New"
+            };
+            assessmentSelect.innerHTML = '<option value="">-- Select Assessment --</option>';
+            for (let i = 1; i <= 15; i++) {
+                const chapterId = i.toString();
+                const option = document.createElement('option');
+                option.value = chapterId;
+                option.textContent = chapterNames[chapterId] || `Assessment ${chapterId}: (Name not found)`;
+                if (allChaptersQuestions[chapterId] && allChaptersQuestions[chapterId].length > 0) {
+                    option.disabled = false;
+                } else {
+                    option.textContent += " (Not Available)";
+                    option.disabled = true;
+                }
+                assessmentSelect.appendChild(option);
+            }
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `Time Left: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            timeLeft = TEST_DURATION_SECONDS;
+            stopTimer();
+            updateTimerDisplay();
+            timerIntervalId = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    handleTimeUp();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerIntervalId);
+            timerIntervalId = null;
+        }
+
+        function handleTimeUp() {
+            stopTimer();
+            showAlert("Time is up! Your test will be submitted automatically.");
+            setTimeout(() => {
+                 if (resultsScreen.style.display !== 'flex') {
+                    showResults();
+                 }
+            }, 500);
+        }
+
+
+        function startTestLogic(chapterIdToStart) { // Renamed parameter to avoid conflict
+            if (typeof allChaptersQuestions === 'undefined' || !allChaptersQuestions[chapterIdToStart]) {
+                showAlert(`Error: Question data for the selected chapter is not available. Please ensure 'questions_data.js' is loaded and contains data for chapter '${chapterIdToStart}'.`);
+                return;
+            }
+            currentChapterId = chapterIdToStart;
+            const fullChapterQuestions = allChaptersQuestions[currentChapterId]; // Use the passed chapterId
+            if (!fullChapterQuestions || fullChapterQuestions.length === 0) {
+                showAlert("No questions available for this chapter.");
+                return;
+            }
+            currentQuizQuestions = shuffleArray([...fullChapterQuestions]).slice(0, 10);
+             if (currentQuizQuestions.length === 0) {
+                showAlert("Not enough questions to start the test for this chapter (minimum 1 needed).");
+                return;
+            }
+            userAnswers = new Array(currentQuizQuestions.length).fill(null);
+            questionStatus = new Array(currentQuizQuestions.length).fill('not-answered');
+            currentQuestionIndex = 0;
+
+            userNameDisplay.textContent = userName; // userName is already set globally
+            userCityDisplay.textContent = userCity; // userCity is already set globally
+
+            chapterSelectionScreen.style.display = 'none';
+            testEngineScreen.style.display = 'flex';
+            resultsScreen.style.display = 'none';
+            testContentArea.style.display = 'flex';
+            testContentArea.style.flexDirection = 'column';
+
+            // Find the selected option text again for the title
+            let selectedAssessmentText = "Assessment";
+            for(let i=0; i < assessmentSelect.options.length; i++){
+                if(assessmentSelect.options[i].value === currentChapterId){
+                    selectedAssessmentText = assessmentSelect.options[i].text;
+                    break;
+                }
+            }
+            testTitleArea.textContent = selectedAssessmentText;
+
+
+            startTimer();
+            displayQuestion();
+            renderPalette();
+        }
+
+        function displayQuestion() {
+            if (!currentQuizQuestions || currentQuizQuestions.length === 0 || !currentQuizQuestions[currentQuestionIndex]) {
+                showAlert("Error: Could not load question " + (currentQuestionIndex + 1));
+                stopTimer();
+                return;
+            }
+            const question = currentQuizQuestions[currentQuestionIndex];
+            questionTextArea.innerHTML = `<span class="hindi">${question.question_hi}</span> <span class="english">(${question.question_en})</span>`;
+            optionsContainerArea.innerHTML = '';
+
+            question.options.forEach(opt => {
+                const label = document.createElement('label');
+                label.className = 'option-label';
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = `q_option_${currentQuestionIndex}`;
+                radio.value = opt.char;
+
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(` ${opt.text_hi} (${opt.text_en})`));
+
+                if (userAnswers[currentQuestionIndex] === opt.char) {
+                    radio.checked = true;
+                    label.classList.add('selected');
+                }
+
+                label.addEventListener('click', (e) => {
+                    if (!radio.checked) {
+                        radio.checked = true;
+                    }
+                    userAnswers[currentQuestionIndex] = radio.value;
+                    questionStatus[currentQuestionIndex] = 'answered';
+                    document.querySelectorAll('#options-container-area .option-label').forEach(l => l.classList.remove('selected'));
+                    label.classList.add('selected');
+                    renderPalette();
+                });
+                optionsContainerArea.appendChild(label);
+            });
+
+            questionCounterArea.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuizQuestions.length}`;
+            prevButton.disabled = currentQuestionIndex === 0;
+            saveAndNextButton.disabled = currentQuestionIndex === currentQuizQuestions.length - 1;
+            saveAndNextButton.innerHTML = currentQuestionIndex === currentQuizQuestions.length - 1 ? 'Next <i class="fas fa-arrow-right"></i>' : 'Save & Next <i class="fas fa-arrow-right"></i>';
+            updatePaletteActiveButton();
+        }
+
+        function renderPalette() {
+            paletteGrid.innerHTML = '';
+            currentQuizQuestions.forEach((_, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'palette-button';
+                btn.textContent = index + 1;
+                btn.onclick = () => {
+                    currentQuestionIndex = index;
+                    displayQuestion();
+                };
+                btn.classList.remove('current', 'answered', 'not-answered');
+                if (index === currentQuestionIndex) btn.classList.add('current');
+
+                switch(questionStatus[index]) {
+                    case 'answered': btn.classList.add('answered'); break;
+                    default: btn.classList.add('not-answered');
+                }
+                paletteGrid.appendChild(btn);
+            });
+        }
+
+        function updatePaletteActiveButton() {
+            document.querySelectorAll('.palette-button').forEach((btn, index) => {
+                btn.classList.remove('current');
+                if (index === currentQuestionIndex) {
+                    btn.classList.add('current');
+                }
+            });
+        }
+
+        function showResults() {
+            stopTimer();
+            let score = 0;
+            currentQuizQuestions.forEach((q, index) => {
+                if (userAnswers[index] === q.correct_option_char) {
+                    score++;
+                }
+            });
+            const percentage = currentQuizQuestions.length > 0 ? ((score / currentQuizQuestions.length) * 100).toFixed(2) : 0;
+
+            let selectedAssessmentText = "Selected Assessment";
+             for(let i=0; i < assessmentSelect.options.length; i++){
+                if(assessmentSelect.options[i].value === currentChapterId){ // currentChapterId holds the ID of the test taken
+                    selectedAssessmentText = assessmentSelect.options[i].text;
+                    break;
+                }
+            }
+            resultsChapterName.textContent = `Assessment: ${selectedAssessmentText}`;
+            resultsScoreEl.textContent = `Your Score: ${score}/${currentQuizQuestions.length}`;
+            resultsPercentageEl.textContent = `Percentage: ${percentage}%`;
+
+            testContentArea.style.display = 'none';
+            resultsScreen.style.display = 'flex';
+        }
+
+        function goToChapterSelectionScreen() {
+            stopTimer();
+            testEngineScreen.style.display = 'none';
+            resultsScreen.style.display = 'none';
+            chapterSelectionScreen.style.display = 'flex';
+            assessmentSelect.value = "";
+            // userNameInput.value = ""; // Optionally clear these, or leave for convenience
+            // userCityInput.value = "";
+
+            currentChapterId = null;
+            currentQuizQuestions = [];
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            questionStatus = [];
+            selectedChapterForStart = ''; // Reset this as well
+            timerDisplay.textContent = `Time Left: ${String(TEST_DURATION_SECONDS/60).padStart(2, '0')}:00`;
+        }
+
+
+        // --- Event Listeners ---
+        startButton.addEventListener('click', () => {
+            userName = userNameInput.value.trim();
+            userCity = userCityInput.value.trim();
+            selectedChapterForStart = assessmentSelect.value; // Store selected chapter
+
+            if (!userName) {
+                showAlert("Please enter your name.");
+                return;
+            }
+            if (!userCity) {
+                showAlert("Please enter your city.");
+                return;
+            }
+            if (selectedChapterForStart) {
+                startTestConfirmModal.style.display = 'flex'; // Show confirmation modal
+            } else {
+                showAlert("Please select an assessment.");
+            }
+        });
+
+        // Start Test Confirmation Modal Listeners
+        confirmStartTestBtn.addEventListener('click', () => {
+            startTestConfirmModal.style.display = 'none';
+            if (selectedChapterForStart) { // Ensure chapter is still selected
+                 startTestLogic(selectedChapterForStart);
+            } else {
+                showAlert("Error: Assessment selection lost. Please select again."); // Fallback
+                goToChapterSelectionScreen(); // Go back if selection is somehow lost
+            }
+        });
+
+        cancelStartTestBtn.addEventListener('click', () => {
+            startTestConfirmModal.style.display = 'none';
+            selectedChapterForStart = ''; // Clear the temporarily stored chapter
+        });
+
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        });
+
+        saveAndNextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < currentQuizQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                 showAlert("This is the last question. Click 'Submit Test' to finish.");
+            }
+        });
+
+        submitTestButton.addEventListener('click', () => {
+            submitConfirmModal.style.display = 'flex';
+        });
+
+        confirmSubmitBtn.addEventListener('click', () => {
+            submitConfirmModal.style.display = 'none';
+            showResults();
+        });
+
+        cancelSubmitBtn.addEventListener('click', () => {
+            submitConfirmModal.style.display = 'none';
+        });
+
+        retryChapterButton.addEventListener('click', () => {
+            startTestLogic(currentChapterId);
+        });
+
+        backToSelectionButton.addEventListener('click', () => {
+            goToChapterSelectionScreen();
+        });
+
+        function handleTopBarNavigation() {
+            homeBackConfirmModal.style.display = 'flex';
+        }
+        homeButtonTopBar.addEventListener('click', handleTopBarNavigation);
+        backButtonTopBar.addEventListener('click', handleTopBarNavigation);
+
+        confirmNavigationBtn.addEventListener('click', () => {
+            homeBackConfirmModal.style.display = 'none';
+            goToChapterSelectionScreen(); // This takes user to the chapter selection screen
+        });
+
+        cancelNavigationBtn.addEventListener('click', () => {
+            homeBackConfirmModal.style.display = 'none';
+        });
+
+
+        // Initialize
+        populateAssessments();
+
+    </script>
+</body>
+</html>

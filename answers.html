@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter Answers - RSCIT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+        }
+        .question-block {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .question-text-english {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.25rem;
+        }
+        .question-text-hindi {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 1rem;
+        }
+        .option {
+            display: block;
+            padding: 0.65rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+        .option.correct {
+            background-color: #c6f6d5;
+            border-color: #9ae6b4;
+            color: #2f855a;
+            font-weight: 500;
+        }
+        .option-prefix {
+            font-weight: 500;
+            margin-right: 0.5rem;
+        }
+        .header-banner {
+            background-color: #4a5568;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px 6px 0 0;
+        }
+        .header-banner h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .header-banner p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+        .content-wrapper {
+            padding: 1.5rem;
+             background-color: white;
+             border-radius: 0 0 6px 6px;
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .nav-button { /* For Back button */
+            background-color: #4a5568;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 1.5rem; /* Spacing below back button */
+        }
+        .nav-button:hover {
+            background-color: #2d3748;
+        }
+        .nav-button i {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-3xl mx-auto">
+        <a href="see_answers.html" class="nav-button"> <i class="fas fa-arrow-left"></i> Back to Chapters
+        </a>
+
+        <div id="chapter-header-banner" class="header-banner">
+            <h1 id="chapter-title">Chapter Answers</h1>
+            <p>RSCIT Internal Final Exam New English/ Hindi Language</p>
+        </div>
+        <div id="questions-container" class="content-wrapper">
+            </div>
+    </div>
+
+    <script src="questions_data.js"></script>
+    <script>
+        // Chapter titles mapping
+        const chapterTitles = {
+            "1": "Chapter 1: Introduction to Computers New",
+            "2": "Chapter 2: Computer System New",
+            "3": "Chapter 3: Exploring Your Computer New",
+            "4": "Chapter 4: Introduction Of Internet New",
+            "5": "Chapter 5: Financial Literacy and Digital Payment Application New",
+            "6": "Chapter 6: Internet Applications New",
+            "7": "Chapter 7: Working with mobile device/smartphone New",
+            "8": "Chapter 8: Microsoft Word New",
+            "9": "Chapter 9: Microsoft Excel New",
+            "10": "Chapter 10: MS Power Point New",
+            "11": "Chapter 11: Cyber Security and Application of IT New",
+            "12": "Chapter 12: Other Office Tools New",
+            "13": "Chapter 13: Useful Application of IT New",
+            "14": "Chapter 14: Exploring Common Citizen Centric Services New",
+            "15": "Chapter 15: Major eGovernance Services And Schemes For Citizens of Rajasthan New"
+        };
+
+        function getChapterFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('chapter');
+        }
+
+        function renderChapterQuestions() {
+            const chapterNumber = getChapterFromURL();
+            const container = document.getElementById('questions-container');
+            const chapterTitleEl = document.getElementById('chapter-title');
+
+            if (!container || !chapterTitleEl) {
+                console.error("Required HTML elements not found!");
+                // Yahan par container ko error message se update karein agar woh maujood hai
+                if (container) {
+                    container.innerHTML = "<p class='text-red-500 font-semibold'>Error: Page structure is missing essential elements. Cannot display questions.</p>";
+                }
+                // Title ko bhi update karein agar woh maujood hai
+                if (chapterTitleEl) {
+                    chapterTitleEl.textContent = "Error: Page Setup Problem";
+                }
+                return;
+            }
+
+            if (!chapterNumber) {
+                container.innerHTML = "<p class='text-red-500 font-semibold'>Koi chapter chuna nahi gaya. Kripya peeche jaakar ek chapter chunein.</p>";
+                chapterTitleEl.textContent = "Galti: Chapter Nahi Bataya Gaya";
+                return;
+            }
+
+            // Chapter title set karein
+            chapterTitleEl.textContent = chapterTitles[chapterNumber] || `Chapter ${chapterNumber} Answers`;
+
+            // Check karein ki allChaptersQuestions variable defined hai aur usmein chapter ka data hai
+            if (typeof allChaptersQuestions === 'undefined') {
+                container.innerHTML = `<p class='text-red-500 font-semibold'>Galti: Prashno ka data (allChaptersQuestions) nahi mila. Sunishchit karein ki 'questions_data.js' sahi tarah se load ho rahi hai.</p>`;
+                console.error("'allChaptersQuestions' object is undefined. Make sure 'questions_data.js' is loaded before this script and defines 'allChaptersQuestions'.");
+                return;
+            }
+            
+            if (!allChaptersQuestions[chapterNumber]) {
+                container.innerHTML = `<p class='text-red-500 font-semibold'>Galti: Chapter ${chapterNumber} ke liye prashno ka data nahi mila. Sunishchit karein ki 'questions_data.js' mein is chapter ke liye data hai.</p>`;
+                console.error(`Data for chapter '${chapterNumber}' is missing in 'allChaptersQuestions'.`);
+                return;
+            }
+
+            const chapterData = allChaptersQuestions[chapterNumber];
+            if (!chapterData || chapterData.length === 0) {
+                container.innerHTML = `<p class='text-gray-600'>Chapter ${chapterNumber} ke liye koi prashn nahi mile.</p>`;
+                return;
+            }
+
+            let htmlContent = '';
+            chapterData.forEach(q => {
+                htmlContent += `
+                    <div class="question-block">
+                        <p class="question-text-english">${q.id}. ${q.question_en}</p>
+                        <p class="question-text-hindi">(${q.question_hi})</p>
+                        <div class="options-container mt-3">
+                `;
+                q.options.forEach(opt => {
+                    const isCorrect = opt.char === q.correct_option_char;
+                    htmlContent += `
+                        <span class="option ${isCorrect ? 'correct' : ''}">
+                            <span class="option-prefix">${opt.char})</span> ${opt.text_en} (${opt.text_hi})
+                        </span>
+                    `;
+                });
+                htmlContent += `
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = htmlContent;
+        }
+
+        // Jab window load ho, tab prashno ko render karein
+        window.onload = renderChapterQuestions;
+    </script>
+
+</body>
+</html>

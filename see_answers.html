@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapters List - RSCIT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+        }
+        .chapter-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid #e5e7eb; /* Subtle border like in the image */
+            text-decoration: none; /* Ensure links don't have underlines by default */
+        }
+        .chapter-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 12px -3px rgba(0, 0, 0, 0.07), 0 3px 5px -2px rgba(0, 0, 0, 0.04);
+        }
+        .group:hover .group-hover\:text-blue-600 { color: #3b82f6 !important; }
+        .group:hover .group-hover\:text-green-600 { color: #10b981 !important; }
+        .group:hover .group-hover\:text-red-600 { color: #ef4444 !important; }
+        .group:hover .group-hover\:text-yellow-600 { color: #f59e0b !important; }
+        .group:hover .group-hover\:text-purple-600 { color: #8b5cf6 !important; }
+        .group:hover .group-hover\:text-teal-600 { color: #14b8a6 !important; }
+        .group:hover .group-hover\:text-pink-600 { color: #ec4899 !important; }
+        .group:hover .group-hover\:text-indigo-600 { color: #6366f1 !important; }
+        .group:hover .group-hover\:text-orange-600 { color: #f97316 !important; }
+        .group:hover .group-hover\:text-cyan-600 { color: #06b6d4 !important; }
+        .group:hover .group-hover\:text-lime-600 { color: #84cc16 !important; }
+        .group:hover .group-hover\:text-emerald-600 { color: #059669 !important; }
+        .group:hover .group-hover\:text-rose-600 { color: #f43f5e !important; }
+        .group:hover .group-hover\:text-sky-600 { color: #0ea5e9 !important; }
+        .group:hover .group-hover\:text-violet-600 { color: #7c3aed !important; }
+
+        .subtitle-text {
+             color: #dc2626; /* Red color for the subtitle */
+        }
+        .nav-button {
+            background-color: #4a5568; /* Dark gray */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            font-size: 0.875rem; /* 14px */
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+        .nav-button:hover {
+            background-color: #2d3748; /* Darker gray on hover */
+        }
+        .nav-button i {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="container mx-auto">
+        <header class="mb-6 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">RSCIT Internal Final Exam Chapters</h1>
+            <p class="text-gray-600 mt-2">New English & Hindi Language Resources</p>
+        </header>
+
+        <div class="mb-6 flex justify-center space-x-4">
+            <a href="javascript:history.back()" class="nav-button">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <a href="../index.html" class="nav-button"> <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+            <a href="answers.html?chapter=1" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/3498db/ffffff?text=Chapter+01" alt="Chapter Image 1" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors duration-200">Chapter 1: Introduction to Computers New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=2" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/2ecc71/ffffff?text=Chapter+02" alt="Chapter Image 2" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-green-600 transition-colors duration-200">Chapter 2: Computer System New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=3" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/e74c3c/ffffff?text=Chapter+03" alt="Chapter Image 3" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-red-600 transition-colors duration-200">Chapter 3: Exploring Your Computer New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=4" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/f39c12/ffffff?text=Chapter+04" alt="Chapter Image 4" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-yellow-600 transition-colors duration-200">Chapter 4: Introduction Of Internet New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=5" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/9b59b6/ffffff?text=Chapter+05" alt="Chapter Image 5" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-purple-600 transition-colors duration-200">Chapter 5: Financial Literacy and Digital Payment Application New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=6" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/1abc9c/ffffff?text=Chapter+06" alt="Chapter Image 6" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-teal-600 transition-colors duration-200">Chapter 6: Internet Applications New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=7" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/ec4899/ffffff?text=Chapter+07" alt="Chapter Image 7" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-pink-600 transition-colors duration-200">Chapter 7: Working with mobile device/smartphone New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=8" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/6366f1/ffffff?text=Chapter+08" alt="Chapter Image 8" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors duration-200">Chapter 8: Microsoft Word New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=9" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/f97316/ffffff?text=Chapter+09" alt="Chapter Image 9" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-orange-600 transition-colors duration-200">Chapter 9: Microsoft Excel New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=10" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/06b6d4/ffffff?text=Chapter+10" alt="Chapter Image 10" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-cyan-600 transition-colors duration-200">Chapter 10: MS Power Point New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=11" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/84cc16/ffffff?text=Chapter+11" alt="Chapter Image 11" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-lime-600 transition-colors duration-200">Chapter 11: Cyber Security and Application of IT New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=12" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/059669/ffffff?text=Chapter+12" alt="Chapter Image 12" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-emerald-600 transition-colors duration-200">Chapter 12: Other Office Tools New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=13" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/f43f5e/ffffff?text=Chapter+13" alt="Chapter Image 13" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-rose-600 transition-colors duration-200">Chapter 13: Useful Application of IT New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=14" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/0ea5e9/ffffff?text=Chapter+14" alt="Chapter Image 14" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-sky-600 transition-colors duration-200">Chapter 14: Exploring Common Citizen Centric Services New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+            <a href="answers.html?chapter=15" class="chapter-card bg-white rounded-md shadow-sm overflow-hidden block group">
+                <img src="https://placehold.co/600x400/7c3aed/ffffff?text=Chapter+15" alt="Chapter Image 15" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-violet-600 transition-colors duration-200">Chapter 15: Major eGovernance Services And Schemes For Citizens of Rajasthan New</h2>
+                    <p class="text-xs font-medium mb-2 subtitle-text">RSCIT Internal Final Exam New English/Hindi Language</p>
+                </div>
+            </a>
+
+        </div>
+    </div>
+</body>
+</html>
